@@ -1,0 +1,7 @@
+.slider-container {
+    height: 150px;
+    background-color: map-get($theme-colors, "primary");
+    @include mq('tablet') {
+        height: 100% !important;
+    }
+}

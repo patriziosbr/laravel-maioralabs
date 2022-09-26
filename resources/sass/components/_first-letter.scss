@@ -1,0 +1,29 @@
+.first-letter {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    margin-right: 8px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #fff;
+    &--header {
+        height: 30px;
+        width: 30px;
+        font-size: 18px;
+    }
+    &--bg_primary {
+        background-color: red;
+    }
+    &--big {
+        height: 100px;
+        width: 100px;
+        font-size: 36px;
+        z-index: 1;
+        margin-bottom: 16px;
+    }
+}

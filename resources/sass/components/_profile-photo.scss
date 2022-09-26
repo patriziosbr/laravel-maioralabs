@@ -1,0 +1,7 @@
+.profile-photo {
+    height: 80px;
+    width: 120px;
+    overflow: auto;
+    border-radius: 5px;
+    background-color: map-get($theme-colors, "grey");
+}

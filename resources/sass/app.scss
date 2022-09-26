@@ -1,8 +1,37 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
+// utils
+@import './utils/functions';
+@import './utils/mixin';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+// variables
+@import './utils/variables';
+
+// components
+@import './components/mycard-container';
+@import './components/slider-container';
+@import './components/buttons';
+@import './components/profile-photo';
+@import './components/first-letter';
+@import './components/menu-card-container';
+
+// layout
+@import './layout/footer';
+@import './layout/header';
+
+// pages
+@import './pages/dashboard';
+
+// base
+@import './base/reset';
+@import './base/typography';
+@import './base/margin';
+@import './base/padding';
+@import './base/errors';
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
