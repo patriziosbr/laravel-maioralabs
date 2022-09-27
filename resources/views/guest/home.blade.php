@@ -9,10 +9,13 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
         {{-- fontawesome --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {{-- bootstapitalia css--}}
+        <link rel="stylesheet" href="{{asset('bootstrap-italia/css/bootstrap-italia.min.css')}}" />
 
     </head>
     <body>
       <div id="root"></div>
       <script src="{{asset('js/app.js')}}"></script>
+      <script src="{{asset('bootstrap-italia/js/bootstrap-italia.bundle.min')}}"></script>
     </body>
 </html>

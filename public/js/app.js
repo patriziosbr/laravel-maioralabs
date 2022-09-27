@@ -5348,6 +5348,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -5414,6 +5427,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -28497,11 +28512,31 @@ var render = function () {
       _c("router-link", { attrs: { to: "/about" } }, [_vm._v("About")]),
       _vm._v(" "),
       _c("a", { attrs: { href: "/login" } }, [_vm._v("Accedi")]),
+      _vm._v(" "),
+      _vm._m(0),
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "form-check col-6" }, [
+        _c("div", { staticClass: "toggles" }, [
+          _c("label", { attrs: { for: "toggleEsempio1a" } }, [
+            _vm._v("\n      Label dell'interruttore 1\n      "),
+            _c("input", { attrs: { type: "checkbox", id: "toggleEsempio1a" } }),
+            _vm._v(" "),
+            _c("span", { staticClass: "lever" }),
+          ]),
+        ]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
