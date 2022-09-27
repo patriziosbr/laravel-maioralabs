@@ -1,17 +1,22 @@
 <template>
     <div>
-      <header-guest></header-guest>
-      <router-view />
+      <TopHeaderVue/>
+      <HeaderBig/>
+      <div class="container">
+        <router-view />
+      </div>
     </div>
     </template>
     
     <script>
     
-    import HeaderGuest from './components/HeaderGuest.vue'
+    import TopHeaderVue from './components/TopHeader.vue';
+    import HeaderBig from './components/HeaderBig.vue'
     
     export default {
       components: { 
-        HeaderGuest 
+        TopHeaderVue,
+        HeaderBig
       },
     
     }
@@ -19,6 +24,8 @@
     
     
 
-    <style>
-    
+    <style lang="scss">
+      @import '../sass/base/margin';
+      @import '../sass/base/padding';
+
     </style>

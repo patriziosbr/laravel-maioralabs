@@ -16,6 +16,6 @@
     <body>
       <div id="root"></div>
       <script src="{{asset('js/app.js')}}"></script>
-      <script src="{{asset('bootstrap-italia/js/bootstrap-italia.bundle.min')}}"></script>
+      <script src="{{asset('bootstrap-italia/js/bootstrap-italia.bundle.min.js')}}"></script>
     </body>
 </html>

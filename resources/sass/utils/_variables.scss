@@ -13,14 +13,12 @@ $breakpoints: (
   "desktop-hd":     1920px
 );
 
-$theme-colors: (
-  "primary" : #0066cc,
-  'secondary' : #0059b3,
-  'p-black' : #000,
-  'grey' : #abb8c3,
-  'p-white' : #fff,
-  'green' : #23a036,
-  'orange' : #ff9e2d,
-  'yellow' : #ffcb2d,
-  'red' : #f24545,
-);
+  $primary : #0066cc;
+  $secondary : #0059b3;
+  $black : #000;
+  $grey : #abb8c3;
+  $white : #fff;
+  $green : #23a036;
+  $orange : #ff9e2d;
+  $yellow : #ffcb2d;
+  $red : #f24545;
