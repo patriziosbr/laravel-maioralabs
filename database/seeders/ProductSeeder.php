@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Product;
+use App\Helpers;
 
 class ProductSeeder extends Seeder
 {
@@ -14,6 +15,14 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+        $currencyArr = array(
+        "EEK" => "kr",
+        "ETB" => "Nkf",
+        "EUR" => "€",
+        "FKP" => "£",
+        "FJD" => "FJ$",
+        "GMD" => "D");
+
         $products = [
             [
                 'name' => 'art-1',
@@ -36,7 +45,7 @@ class ProductSeeder extends Seeder
         $hash = array();
         $array_out = array();
         
-        foreach($prod as $item) {
+        foreach($products as $item) {
             $hash_key = $item['name'].'|'.$item['price'];
             if(!array_key_exists($hash_key, $hash)) {
                 $hash[$hash_key] = sizeof($array_out);
@@ -48,19 +57,26 @@ class ProductSeeder extends Seeder
             }
             $array_out[$hash[$hash_key]]['count'] += 1;
         }
-        
-        foreach($array_out as $elem) { 
-          $price = preg_replace('/[^0-9]/', '', $elem['price']);
-          
-          $currency = preg_replace('/[0-9]+/', '', $elem['price']);
-        
-        //   echo 'name: '.$elem['name'].' price: '. number_format(($price/100), 2, '.', '') . ' currency: '. $currency  .' qta '.$elem['count']; DEBUG FACCIO IL SAVE ->
 
+        foreach($array_out as $elem) {
+
+        $price = preg_replace('/[^0-9]/', '', $elem['price']);
+        
+        $currency = preg_replace('/[0-9]+/', '', $elem['price']);
+        $currency_removeDot = str_replace('.', '', $currency);
+        $currency_clean = trim($currency_removeDot);
+
+        $currencyString = array_search($currency_clean, $currencyArr);
+
+        $elemName = $elem['name'];
+        $elemQta = $elem['count'];
+          
         $newPoduct = new Product();
-        $newPoduct->name = $elem['name'];
+        $newPoduct->name = $elemName;
+        $newPoduct->category_id = rand(1, 4);
         $newPoduct->price = number_format(($price/100), 2, '.', '');
-        $newPoduct->currency = $currency;
-        $newPoduct->currency = $elem['count'];
+        $newPoduct->currency = $currencyString;
+        $newPoduct->quantity = $elemQta;
         $newPoduct->save();
 
         }

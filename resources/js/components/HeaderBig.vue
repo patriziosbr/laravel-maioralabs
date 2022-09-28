@@ -6,7 +6,7 @@
                 <div class="logo-top mt-24">
                     <img src="https://www.spid.gov.it/wp-content/themes/dist/assets/images/logo.svg" alt="">
                 </div>
-                <h1 class="h1-white mt-32">MaioraLabs Project</h1>
+                <h1 class="h1-white mt-32">Header Project</h1>
             </router-link>
         </div>
 

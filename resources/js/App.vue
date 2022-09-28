@@ -11,7 +11,7 @@
     <script>
     
     import TopHeaderVue from './components/TopHeader.vue';
-    import HeaderBig from './components/HeaderBig.vue'
+    import HeaderBig from './components/HeaderBig.vue';
     
     export default {
       components: { 
