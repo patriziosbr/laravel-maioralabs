@@ -5456,31 +5456,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Home',
   data: function data() {
     return {
-      file_upload: '',
+      file_upload: [],
       errors: {},
       success: false,
+      checked: true,
       sending: false,
-      test: {}
+      filesSelected: 0
     };
   },
   methods: {
-    getTest: function getTest() {
-      var _this = this;
+    submitForm: function submitForm() {
+      var formData = new FormData();
+      formData.append('file', this.file_upload); //dati inviati pulsante bloccato
 
-      axios.get('http://127.0.0.1:8000/api/job').then(function (res) {
-        console.log(res.data.product);
-        _this.test = res.data.product;
+      this.sending = true;
+      axios.post('http://localhost:8000/api/uploadcsv', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log(res.data); //dati inviati pulsante sbloccato
+
+        this.sending = false;
+
+        if (result.data.errors) {
+          //errore in validazione
+          this.errors = result.data.errors;
+        } else {
+          //dati inviati 
+          this.errors = {};
+          this.file_upload = '', this.success = true;
+        }
       })["catch"](function (err) {
-        console.log('Service error: ', err);
+        console.log(err);
       });
+    },
+    previewFiles: function previewFiles(event) {
+      if (event.target.files.length > 0) {
+        this.filesSelected = 1;
+        this.file_upload = event.target.files[0];
+      }
     }
-  },
-  created: function created() {
-    this.getTest();
   }
 });
 
@@ -29329,58 +29352,99 @@ var render = function () {
           ]
         ),
         _vm._v(" "),
-        _c(
-          "form",
-          {
-            staticClass: "form mt-24",
-            attrs: { method: "POST" },
-            on: {
-              submit: function ($event) {
-                $event.preventDefault()
-                return _vm.sendForm.apply(null, arguments)
+        _c("div", { staticClass: "form mt-24" }, [
+          _c("div", [
+            _c("input", {
+              ref: "file_upload",
+              class: { "is-invalid": _vm.errors.file_upload },
+              attrs: {
+                type: "file",
+                placeholder: "Seleziona il file excel da caricare",
+                name: "file_upload",
+              },
+              on: { change: _vm.previewFiles },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-24" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.checked,
+                  expression: "checked",
+                },
+              ],
+              attrs: { type: "checkbox", name: "header_row" },
+              domProps: {
+                checked: Array.isArray(_vm.checked)
+                  ? _vm._i(_vm.checked, null) > -1
+                  : _vm.checked,
+              },
+              on: {
+                change: function ($event) {
+                  var $$a = _vm.checked,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        (_vm.checked = $$a
+                          .slice(0, $$i)
+                          .concat($$a.slice($$i + 1)))
+                    }
+                  } else {
+                    _vm.checked = $$c
+                  }
+                },
+              },
+            }),
+            _vm._v(
+              " La prima riga del file sono titoli?\n                    "
+            ),
+            _c("br"),
+            _vm._v(" "),
+            _c("small", [
+              _vm._v(
+                "Selezionando questa opzione la prima riga non verrà considerata"
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.filesSelected > 0,
+                  expression: "filesSelected > 0",
+                },
+              ],
+              staticClass: "btn btn-success mt-40",
+              attrs: { disabled: _vm.sending },
+              on: {
+                click: function ($event) {
+                  return _vm.submitForm()
+                },
               },
             },
-          },
-          [
-            _c(
-              "input",
-              _vm._g(
-                {
-                  class: { "is-invalid": _vm.errors.file_upload },
-                  attrs: {
-                    type: "file",
-                    placeholder: "Seleziona il file excel da caricare",
-                    name: "file_upload",
-                  },
-                },
-                _vm.file_upload
-              )
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-success mt-40",
-                attrs: { type: "submit", disabled: _vm.sending },
-              },
-              [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(_vm.sending ? "Invio in corso" : "SALVA") +
-                    "\n                "
-                ),
-              ]
-            ),
-          ]
-        ),
+            [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.sending ? "Invio in corso" : "SALVA") +
+                  "\n                "
+              ),
+            ]
+          ),
+        ]),
       ]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v("\n        " + _vm._s(_vm.test) + "\n    "),
     ]),
   ])
 }

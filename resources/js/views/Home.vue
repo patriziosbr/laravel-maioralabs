@@ -6,17 +6,20 @@
                 <div class="alert alert-success" v-show="success">
                     <h5 class="h5">Messaggio inviato correttamente</h5>
                 </div>
-                <form class="form mt-24" method="POST" @submit.prevent="sendForm">
-                    <input v-on="file_upload" type="file" placeholder="Seleziona il file excel da caricare" name="file_upload" :class="{ 'is-invalid' : errors.file_upload }">
-                    <button type="submit" class="btn btn-success mt-40" :disabled="sending">
+                <div class="form mt-24">
+                    <div>
+                        <input v-on:change="previewFiles" type="file" placeholder="Seleziona il file excel da caricare" name="file_upload" :class="{ 'is-invalid' : errors.file_upload }" ref="file_upload">
+                    </div>
+                    <div class="mt-24">
+                        <input type="checkbox" name="header_row" v-model="checked"> La prima riga del file sono titoli?
+                        <br>
+                        <small>Selezionando questa opzione la prima riga non verrà considerata</small>
+                    </div>
+                    <button  v-on:click="submitForm()" class="btn btn-success mt-40" :disabled="sending"  v-show="filesSelected > 0" >
                         {{ sending ? 'Invio in corso' : 'SALVA' }}
                     </button>
-                </form>
+                </div>
             </div>
-            <br>
-            <br>
-            <br>
-            {{test}}
         </div>
     </div>
   </template>
@@ -27,26 +30,51 @@
     name: 'Home',
     data(){
       return{
-        file_upload:'',
+        file_upload:[],
         errors: {},
         success: false,
+        checked: true,
         sending: false,
-        test: {}
+        filesSelected: 0
       }
     },
     methods: {
-        getTest() {
-            axios.get('http://127.0.0.1:8000/api/job')
-            .then(res => {
-                console.log(res.data.product);
-                this.test = res.data.product;
-            }).catch(err => {
-                console.log('Service error: ', err)
+        submitForm(){
+            let formData = new FormData();
+            formData.append('file', this.file_upload);
+            //dati inviati pulsante bloccato
+            this.sending = true;
+            axios.post('http://localhost:8000/api/uploadcsv',
+                formData,
+                {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+              }
+            ).then(function(res){
+                console.log(res.data);
+                //dati inviati pulsante sbloccato
+                
+                this.sending = false;
+                if(result.data.errors){
+                    //errore in validazione
+                    this.errors = result.data.errors;
+                } else {
+                    //dati inviati 
+                    this.errors = {};
+                    this.file_upload = '',
+                    this.success = true
+          }
+            }).catch((err) => {
+                console.log(err);
             });
+      },
+      previewFiles(event) {
+        if(event.target.files.length > 0) {
+            this.filesSelected = 1
+            this.file_upload = event.target.files[0];
+            }
         }
-    },
-    created() {
-        this.getTest();
     }
   }
   </script>

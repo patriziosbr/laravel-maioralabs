@@ -14,11 +14,9 @@ use App\Models\Product;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
-Route::namespace('Api')
-->group(function() {
-        Route::get('/job', [App\Http\Controllers\CsvController::class, 'index']);
-    });
+// Route::get('/job', [App\Http\Controllers\Api\CsvController::class, 'index']); per ricordo
+Route::post('/uploadcsv', [App\Http\Controllers\Api\CsvController::class, 'uploadcsv']);
