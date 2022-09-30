@@ -61,7 +61,6 @@ class ProductSeeder extends Seeder
         foreach($array_out as $elem) {
 
         $price = preg_replace('/[^0-9]/', '', $elem['price']);
-        
         $currency = preg_replace('/[0-9]+/', '', $elem['price']);
         $currency_removeDot = str_replace('.', '', $currency);
         $currency_clean = trim($currency_removeDot);

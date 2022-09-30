@@ -5473,8 +5473,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submitForm: function submitForm() {
+      var _this = this;
+
       var formData = new FormData();
-      formData.append('file', this.file_upload); //dati inviati pulsante bloccato
+      formData.append('file', this.file_upload);
+      formData.append('checked', this.checked); //dati inviati pulsante bloccato
 
       this.sending = true;
       axios.post('http://localhost:8000/api/uploadcsv', formData, {
@@ -5496,6 +5499,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (err) {
         console.log(err);
+        _this.sending = false;
       });
     },
     previewFiles: function previewFiles(event) {
@@ -29419,14 +29423,6 @@ var render = function () {
           _c(
             "button",
             {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.filesSelected > 0,
-                  expression: "filesSelected > 0",
-                },
-              ],
               staticClass: "btn btn-success mt-40",
               attrs: { disabled: _vm.sending },
               on: {

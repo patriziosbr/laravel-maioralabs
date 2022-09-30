@@ -15,7 +15,7 @@
                         <br>
                         <small>Selezionando questa opzione la prima riga non verrà considerata</small>
                     </div>
-                    <button  v-on:click="submitForm()" class="btn btn-success mt-40" :disabled="sending"  v-show="filesSelected > 0" >
+                    <button  v-on:click="submitForm()" class="btn btn-success mt-40" :disabled="sending" >
                         {{ sending ? 'Invio in corso' : 'SALVA' }}
                     </button>
                 </div>
@@ -42,6 +42,7 @@
         submitForm(){
             let formData = new FormData();
             formData.append('file', this.file_upload);
+            formData.append('checked', this.checked);
             //dati inviati pulsante bloccato
             this.sending = true;
             axios.post('http://localhost:8000/api/uploadcsv',
@@ -51,10 +52,9 @@
                     'Content-Type': 'multipart/form-data'
                 }
               }
-            ).then(function(res){
-                console.log(res.data);
+            ).then(function(result){
+                console.log(result.data);
                 //dati inviati pulsante sbloccato
-                
                 this.sending = false;
                 if(result.data.errors){
                     //errore in validazione
@@ -64,12 +64,15 @@
                     this.errors = {};
                     this.file_upload = '',
                     this.success = true
+                    console.log(result.data.errors);
           }
             }).catch((err) => {
                 console.log(err);
+                this.sending = false
             });
       },
       previewFiles(event) {
+        
         if(event.target.files.length > 0) {
             this.filesSelected = 1
             this.file_upload = event.target.files[0];
