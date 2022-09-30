@@ -19,7 +19,7 @@ class CsvController extends Controller
     public function uploadcsv(Request $request)
     {
         $data = $request->all();
-        // Log::info($request->file('file'));
+        
         // Log::info($data['file']);
          //validaizione maunale
          $validator = Validator::make($data, [
@@ -38,13 +38,26 @@ class CsvController extends Controller
         DB::table('csvs')->truncate(); //svuoto la tabella dall'upload precedente 
 
         Excel::import(new CsvImport, $data['file']); //store del csv in tabella apposita
-
-        $originalCsv = Csv::all();
         
-        $allCAtegory = 
-
-        foreach($originalCsv as $item) {
-            Log::info($item);
+        $originalCsv = Csv::all();
+        // Log::info($originalCsv);
+        $i=0;
+        $allCAtegory = [];
+        foreach($originalCsv as $key => $item) {
+        //salto la prima riga se il box è checked
+        if($data['checked']){ 
+            if($key == 0)
+                continue;
+        }
+        $productObj = json_decode($item); // Log::info($productObj->categoria); //le categorie
+        array_push($allCAtegory, $productObj->categoria);
+        }
+        //salvo le categorie originali a db
+        $cleanCAtegories = array_unique($allCAtegory);
+        foreach($cleanCAtegories as $category) {
+            $newCategory = new Category();
+            $newCategory->name = $category;
+            $newCategory->save();
         }
 
         //pulisco la collection dai doppioni e creo un array con categoria
