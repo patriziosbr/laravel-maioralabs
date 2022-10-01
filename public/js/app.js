@@ -5501,14 +5501,14 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           //dati inviati 
           _this.success = true;
-          _this.errors = {};
+          _this.errors = {}; // questo controllo è da rivedere
+          // this.filesSelected = 0;
+          // this.file_upload = [];
         }
       })["catch"](function (err) {
         console.log('catch err ', err);
         _this.sending = false;
       });
-      this.filesSelected = 0;
-      this.file_upload = [];
     },
     previewFiles: function previewFiles(event) {
       if (event.target.files.length > 0) {

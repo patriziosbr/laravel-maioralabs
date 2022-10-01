@@ -67,13 +67,15 @@
                     //dati inviati 
                     this.success = true;
                     this.errors = {};
+                    // questo controllo è da rivedere
+                    // this.filesSelected = 0;
+                    // this.file_upload = [];
                 }
             }).catch((err) => {
                 console.log('catch err ', err);
                 this.sending = false
             });
-            this.filesSelected = 0;
-            this.file_upload = [];
+
         },
         previewFiles(event) { 
             if(event.target.files.length > 0) {
