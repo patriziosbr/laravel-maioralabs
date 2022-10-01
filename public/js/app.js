@@ -5469,15 +5469,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       file_upload: [],
-      errors: {
-        "file": "",
-        "required": ""
-      },
+      errors: {},
       success: false,
       checked: true,
       sending: false,
-      filesSelected: 0,
-      pippo: ''
+      filesSelected: 0
     };
   },
   methods: {
@@ -5494,32 +5490,30 @@ __webpack_require__.r(__webpack_exports__);
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (result) {
-        console.log('result', result.data); //dati inviati pulsante sbloccato
+        // console.log('then result', result.data);
+        //dati inviati pulsante sbloccato
+        _this.sending = false;
 
-        this.sending = false;
-        this.success = true;
-        this.errors.required = "";
+        if (result.data.errors) {
+          //errore in validazione
+          _this.errors = result.data.errors;
+          console.log('dentro mySerrors', _this.errors.file);
+        } else {
+          //dati inviati 
+          _this.success = true;
+          _this.errors = {};
+        }
       })["catch"](function (err) {
-        console.log('cspire', err);
-        _this.errors.file = "";
-        _this.errors.required = "required";
+        console.log('catch err ', err);
         _this.sending = false;
       });
+      this.filesSelected = 0;
+      this.file_upload = [];
     },
     previewFiles: function previewFiles(event) {
       if (event.target.files.length > 0) {
         this.filesSelected = 1;
         this.file_upload = event.target.files[0];
-        var fileExt = event.target.files[0].name.split('.').pop();
-
-        if (fileExt !== 'xlsx') {
-          this.errors.file = "mime";
-          this.errors.required = "";
-        }
-
-        this.errors.required = "";
-      } else {
-        this.errors.file = "";
       }
     }
   }
@@ -29385,15 +29379,15 @@ var render = function () {
             _vm._v(" "),
             _c("br"),
             _vm._v(" "),
-            _vm.errors.file
-              ? _c("small", { class: { "text-danger": _vm.errors.file } }, [
-                  _vm._v("Formato non accettato, carica un csv o xlsx"),
+            _vm.errors.file == "errore formato"
+              ? _c("small", { staticClass: "text-danger" }, [
+                  _vm._v("Formato non accettato, carica un xlsx"),
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _vm.errors.required
-              ? _c("small", { class: { "text-danger": _vm.errors.required } }, [
-                  _vm._v("Carica almeno un file"),
+            _vm.errors.file == "file mancante"
+              ? _c("small", { staticClass: "text-danger" }, [
+                  _vm._v("Carica un file"),
                 ])
               : _vm._e(),
           ]),

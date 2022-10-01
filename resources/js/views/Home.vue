@@ -11,8 +11,8 @@
                     <div>
                         <input v-on:change="previewFiles" type="file" placeholder="Seleziona il file excel da caricare" name="file_upload" :class="{ 'is-invalid' : errors.file }" ref="file_upload">
                         <br>
-                        <small :class="{ 'text-danger' : errors.file }" v-if="errors.file">Formato non accettato, carica un csv o xlsx</small>
-                        <small :class="{ 'text-danger' : errors.required }" v-if="errors.required">Carica almeno un file</small>
+                        <small class="text-danger" v-if="errors.file == 'errore formato'">Formato non accettato, carica un xlsx</small>
+                        <small class="text-danger" v-if="errors.file == 'file mancante'">Carica un file</small>
 
                     </div>
                     <div class="mt-24">
@@ -36,15 +36,11 @@
     data(){
       return{
         file_upload:[],
-        errors: {
-            "file":"",
-            "required":""
-        },
+        errors: {},
         success: false,
         checked: true,
         sending: false,
-        filesSelected: 0,
-        pippo: ''
+        filesSelected: 0
       }
     },
     methods: {
@@ -59,37 +55,35 @@
             {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            }}).then((result)=>{
+                // console.log('then result', result.data);
+                //dati inviati pulsante sbloccato
+                this.sending = false;
+                if(result.data.errors){
+                    //errore in validazione
+                    this.errors = result.data.errors;
+                    console.log('dentro mySerrors', this.errors.file);
+                }else{
+                    //dati inviati 
+                    this.success = true;
+                    this.errors = {};
+                }
+            }).catch((err) => {
+                console.log('catch err ', err);
+                this.sending = false
+            });
+            this.filesSelected = 0;
+            this.file_upload = [];
+        },
+        previewFiles(event) { 
+            if(event.target.files.length > 0) {
+                this.filesSelected = 1
+                this.file_upload = event.target.files[0];
             }
-            }
-        ).then(function(result){
-            console.log('result', result.data);
-            //dati inviati pulsante sbloccato
-            this.sending = false;
-            this.success = true;
-            this.errors.required = "";
-        }).catch((err) => {
-            console.log('cspire',err);
-            this.errors.file = ""
-            this.errors.required = "required"
-            this.sending = false
-        });
-    },
-    previewFiles(event) { 
-        if(event.target.files.length > 0) {
-            this.filesSelected = 1
-            this.file_upload = event.target.files[0];
-            let fileExt = event.target.files[0].name.split('.').pop();
-            if( fileExt !== 'xlsx') {
-                this.errors.file = "mime"
-                this.errors.required = ""
-            }
-            this.errors.required = ""
-        }else {
-            this.errors.file = ""
+
         }
+      }
     }
-  }
-}
   </script>
   
   <style>

@@ -19,15 +19,15 @@ class CsvController extends Controller
     public function uploadcsv(Request $request)
     {
         $data = $request->all();
-        
+
         // Log::info($data['file']);
          //validaizione maunale
          $validator = Validator::make($data, [
             'file' => 'required|mimes:xlsx'
         ],
         [
-            'file.required' => 'file mancante', 
-            'file.mimes' => 'Formato non accettato, carica un xlsx',
+            'file.required' => 'file mancante',
+            'file.mimes' => 'errore formato',
         ]);
         //errore in validazione
         if($validator->fails()) {
@@ -38,25 +38,25 @@ class CsvController extends Controller
         DB::table('csvs')->truncate(); //svuoto la tabella dall'upload precedente DEBUG
 
         Excel::import(new CsvImport, $data['file']); //store del csv in tabella apposita
-        
+
         $originalCsv = Csv::all();
         // Log::info($originalCsv);
         $i=0;
         $allCAtegory = [];
         foreach($originalCsv as $key => $item) {
-        //salto la prima riga se il box è checked
-        if($data['checked']){ 
+        //salto la prima riga se il checkbox è true
+        if($data['checked']){
             if($key == 0)
                 continue;
         }
         $productObj = json_decode($item); // Log::info($productObj->categoria); //le categorie
         array_push($allCAtegory, $productObj->categoria);
         }
-        //salvo le categorie originali a db
+        //salvo le categorie uniche a db
         $cleanCAtegories = array_unique($allCAtegory);
         foreach($cleanCAtegories as $category) {
-            //se la acategoria esiste no store a db
-            if (!Category::where('name', $category )->exists()) { 
+            //se la acategoria esiste non la salvo
+            if (!Category::where('name', $category )->exists()) {
                 $newCategory = new Category();
                 $newCategory->name = $category;
                 $newCategory->save();
@@ -66,7 +66,7 @@ class CsvController extends Controller
         //pulisco la collection dai doppioni e creo un array con categoria
         // $hash = array();
         // $array_out = array();
-        
+
         // foreach($originalCsv as $item) {
         //     $hash_key = $item['name'].'|'.$item['price'];
         //     if(!array_key_exists($hash_key, $hash)) {
@@ -80,12 +80,15 @@ class CsvController extends Controller
         //     $array_out[$hash[$hash_key]]['count'] += 1;
         // }
 
-     
 
-        
-        return response()->json(['success' => true]);
-        
-        
+
+
+        return response()->json(
+            //  ['success' => true]
+            $data
+            );
+
+
     }
 
     public function index()
