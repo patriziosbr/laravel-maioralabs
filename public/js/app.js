@@ -5459,16 +5459,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Home',
   data: function data() {
     return {
       file_upload: [],
-      errors: {},
+      errors: {
+        "file": "",
+        "required": ""
+      },
       success: false,
       checked: true,
       sending: false,
-      filesSelected: 0
+      filesSelected: 0,
+      pippo: ''
     };
   },
   methods: {
@@ -5484,21 +5493,16 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(function (res) {
-        console.log(res.data); //dati inviati pulsante sbloccato
+      }).then(function (result) {
+        console.log('result', result.data); //dati inviati pulsante sbloccato
 
         this.sending = false;
-
-        if (result.data.errors) {
-          //errore in validazione
-          this.errors = result.data.errors;
-        } else {
-          //dati inviati 
-          this.errors = {};
-          this.file_upload = '', this.success = true;
-        }
+        this.success = true;
+        this.errors.required = "";
       })["catch"](function (err) {
-        console.log(err);
+        console.log('cspire', err);
+        _this.errors.file = "";
+        _this.errors.required = "required";
         _this.sending = false;
       });
     },
@@ -5506,6 +5510,16 @@ __webpack_require__.r(__webpack_exports__);
       if (event.target.files.length > 0) {
         this.filesSelected = 1;
         this.file_upload = event.target.files[0];
+        var fileExt = event.target.files[0].name.split('.').pop();
+
+        if (fileExt !== 'xlsx') {
+          this.errors.file = "mime";
+          this.errors.required = "";
+        }
+
+        this.errors.required = "";
+      } else {
+        this.errors.file = "";
       }
     }
   }
@@ -29360,7 +29374,7 @@ var render = function () {
           _c("div", [
             _c("input", {
               ref: "file_upload",
-              class: { "is-invalid": _vm.errors.file_upload },
+              class: { "is-invalid": _vm.errors.file },
               attrs: {
                 type: "file",
                 placeholder: "Seleziona il file excel da caricare",
@@ -29368,6 +29382,20 @@ var render = function () {
               },
               on: { change: _vm.previewFiles },
             }),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _vm.errors.file
+              ? _c("small", { class: { "text-danger": _vm.errors.file } }, [
+                  _vm._v("Formato non accettato, carica un csv o xlsx"),
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.errors.required
+              ? _c("small", { class: { "text-danger": _vm.errors.required } }, [
+                  _vm._v("Carica almeno un file"),
+                ])
+              : _vm._e(),
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "mt-24" }, [

@@ -27,7 +27,7 @@ class CsvController extends Controller
         ],
         [
             'file.required' => 'file mancante', 
-            'file.mimes' => 'Formato non accettato, carica un csv o xlsx',
+            'file.mimes' => 'Formato non accettato, carica un xlsx',
         ]);
         //errore in validazione
         if($validator->fails()) {
@@ -35,7 +35,7 @@ class CsvController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-        DB::table('csvs')->truncate(); //svuoto la tabella dall'upload precedente 
+        DB::table('csvs')->truncate(); //svuoto la tabella dall'upload precedente DEBUG
 
         Excel::import(new CsvImport, $data['file']); //store del csv in tabella apposita
         
@@ -55,9 +55,12 @@ class CsvController extends Controller
         //salvo le categorie originali a db
         $cleanCAtegories = array_unique($allCAtegory);
         foreach($cleanCAtegories as $category) {
-            $newCategory = new Category();
-            $newCategory->name = $category;
-            $newCategory->save();
+            //se la acategoria esiste no store a db
+            if (!Category::where('name', $category )->exists()) { 
+                $newCategory = new Category();
+                $newCategory->name = $category;
+                $newCategory->save();
+            }
         }
 
         //pulisco la collection dai doppioni e creo un array con categoria
