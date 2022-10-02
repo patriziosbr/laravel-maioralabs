@@ -63,7 +63,7 @@ class CsvController extends Controller
         $productObj = json_decode($item); // Log::info($productObj->categoria); //le categorie
         array_push($allCAtegory, $productObj->categoria);
         }
-
+        
         //salvo le categorie uniche a db
         $cleanCAtegories = array_unique($allCAtegory);
         foreach($cleanCAtegories as $category) {
@@ -137,11 +137,48 @@ class CsvController extends Controller
         );
     }
 
-    public function index()
+    public function discount()
     {
         $product = Product::all();
+        $category = Category::all();
 
-        return response()->json($product);
+        $data = [
+            'product' => $product,
+            'category' => $category
+        ];
+
+        return response()->json($data);
+    }
+
+    public function applaydiscount(Request $request)
+    {
+        $data = $request->all();
+
+        foreach ($data as $values) {
+            foreach ($values as $key => $value) {
+               if(isset($value['discount'])) {
+                    if(strpos($value['discount'], '.')){
+                        $num = floatval($value['discount']);
+                    } else {
+                        $num = intval($value['discount']);
+                    }
+                    if($num > 100) {
+                        return response()->json(
+                            ['errors' => true]
+                        );
+                    }
+                    Product::where('category_id', $value['id'])->update(['percentage_discount' => $num]);
+               } else {
+                    Product::where('category_id', $value['id'])->update(['percentage_discount' => NULL]);
+               }
+            }
+        }
+
+
+        return response()->json(
+            ['success' => true]
+            // $data
+        );
     }
 
 }

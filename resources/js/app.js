@@ -28,7 +28,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import App from './App.vue';
-import About from './views/About'
+import Discount from './views/Discount'
 import Home from './views/Home'
 
 const router = new VueRouter({
@@ -40,9 +40,9 @@ const router = new VueRouter({
             component: Home
         },
         {
-            path: '/about',
-            name: 'about',
-            component: About,
+            path: '/discount',
+            name: 'discount',
+            component: Discount,
         }
     ],
 });

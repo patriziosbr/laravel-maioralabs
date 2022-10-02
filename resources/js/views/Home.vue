@@ -67,6 +67,10 @@
                     //dati inviati 
                     this.success = true;
                     this.errors = {};
+                    this.$router.push(
+                    {
+                        name: 'discount'
+                    })
                     // questo controllo è da rivedere
                     // this.filesSelected = 0;
                     // this.file_upload = [];

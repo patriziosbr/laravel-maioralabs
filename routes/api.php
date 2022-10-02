@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::get('/job', [App\Http\Controllers\Api\CsvController::class, 'index']); per ricordo
 Route::post('/uploadcsv', [App\Http\Controllers\Api\CsvController::class, 'uploadcsv']);
+Route::get('/discount-category', [App\Http\Controllers\Api\CsvController::class, 'discount']);
+Route::post('/applaydiscount', [App\Http\Controllers\Api\CsvController::class, 'applaydiscount']);

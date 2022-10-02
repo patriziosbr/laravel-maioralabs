@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
                 ->onDelete('SET NULL');
             $table->string('name', 100);
             $table->decimal('price', 7,2);
+            $table->float('percentage_discount', 5,2)->nullable()->default(NULL);
             $table->unsignedTinyInteger('quantity');
             $table->string('currency', 3);
             $table->timestamps();
