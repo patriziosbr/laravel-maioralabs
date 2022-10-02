@@ -5723,44 +5723,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Discount',
   data: function data() {
     return {
-      product: [],
+      products: [],
       errors: false,
       success: false,
       sending: false
     };
   },
-  methods: {// getProduct() {
-    //     axios.get('http://localhost:8000/api/productcateogries')
-    //     .then(res => {
-    //         console.log(res.data);
-    //         this.product = res.data.product;
-    //     }).catch(err => {
-    //         console.log('Porduct error: ', err)
-    //     });
-    // },
+  methods: {
+    getProduct: function getProduct() {
+      var _this = this;
+
+      axios.get('http://localhost:8000/api/productcateogries').then(function (res) {
+        console.log(res.data);
+        _this.products = res.data.product;
+      })["catch"](function (err) {
+        console.log('Porduct error: ', err);
+      });
+    }
   },
   mounted: function mounted() {
-    var table = $('#animals').DataTable({
-      "initComplete": function initComplete(settings, json) {
-        $('#animals_filter').remove();
-      }
-    });
-    $('#external_filter input').off().keyup(function () {
-      table.search(this.value).draw();
-    });
+    this.getProduct();
+    setTimeout(function () {
+      var table = $('#animals').DataTable({
+        "initComplete": function initComplete(settings, json) {
+          $('#animals_filter').remove();
+        }
+      });
+      $('#external_filter input').off().keyup(function () {
+        table.search(this.value).draw();
+      });
+    }, 1000);
   }
 });
 
@@ -30207,123 +30203,85 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("h2", { staticClass: "mt-16" }, [_vm._v("Risultati")]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "table",
+      {
+        staticClass: "display dataTable cell-border",
+        staticStyle: { width: "100%" },
+        attrs: { id: "animals" },
+      },
+      [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.products, function (product) {
+            return _c("tr", { key: product.id }, [
+              _c("td", [_vm._v(_vm._s(product.cod_article))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(product.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(product.category_name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(product.price) + " €")]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(product.currency) + " %")]),
+            ])
+          }),
+          0
+        ),
+      ]
+    ),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h2", { staticClass: "mt-16" }, [_vm._v("Risultati")]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "dataTables_filter",
-          staticStyle: { margin: "20px 0" },
-          attrs: { id: "external_filter" },
-        },
-        [
-          _c("label", [
-            _vm._v("External Search:\n    "),
-            _c("input", {
-              attrs: {
-                id: "external_search",
-                type: "search",
-                placeholder: "",
-                "aria-controls": "animals",
-              },
-            }),
-          ]),
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "table",
-        {
-          staticClass: "display dataTable cell-border",
-          staticStyle: { width: "100%" },
-          attrs: { id: "animals" },
-        },
-        [
-          _c("thead", [
-            _c("tr", [
-              _c("th", [_vm._v("Codice articolo")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Nome articolo")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Categoria")]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("td", [_vm._v("antelopes")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("herd")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("elephants")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("herd")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("éléphants")]),
-              _c("td", [_vm._v("troupeau")]),
-              _c("td", [_vm._v("French")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Hounds")]),
-              _c("td", [_vm._v("pack")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("kittens")]),
-              _c("td", [_vm._v("kindle")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("lions")]),
-              _c("td", [_vm._v("pride")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("pingouins")]),
-              _c("td", [_vm._v("colonie")]),
-              _c("td", [_vm._v("French")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("ravens")]),
-              _c("td", [_vm._v("unkindness")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("whales")]),
-              _c("td", [_vm._v("pod")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("zebras")]),
-              _c("td", [_vm._v("herd")]),
-              _c("td", [_vm._v("English")]),
-            ]),
-          ]),
-        ]
-      ),
+    return _c(
+      "div",
+      {
+        staticClass: "dataTables_filter",
+        staticStyle: { margin: "20px 0" },
+        attrs: { id: "external_filter" },
+      },
+      [
+        _c("label", [
+          _vm._v("External Search:\n    "),
+          _c("input", {
+            attrs: {
+              id: "external_search",
+              type: "search",
+              placeholder: "",
+              "aria-controls": "animals",
+            },
+          }),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Codice articolo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nome articolo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Categoria")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Prezzo")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Sconto")]),
+      ]),
     ])
   },
 ]

@@ -131,6 +131,7 @@ class CsvController extends Controller
                 $newPoduct = new Product();
                 $newPoduct->cod_article = $code_article;
                 $newPoduct->name = $elemName;
+                $newPoduct->category_id = $category->id;
                 $newPoduct->category_name = $elem['category'];
                 $newPoduct->price = $decimalPrice;
                 $newPoduct->currency = $currencyString;
