@@ -31,6 +31,7 @@ import App from './App.vue';
 import Discount from './views/Discount';
 import Home from './views/Home';
 import TableProduct from './views/TableProduct';
+import NotFound from './views/NotFound';
 
 const router = new VueRouter({
     mode: 'history',
@@ -49,6 +50,11 @@ const router = new VueRouter({
             path: '/ableproduct',
             name: 'tableproduct',
             component: TableProduct,
+        },
+        {
+            path: '*',
+            name: 'not-found',
+            component: NotFound
         }
     ],
 });

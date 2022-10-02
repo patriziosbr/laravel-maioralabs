@@ -1,5 +1,7 @@
 <template>
-  
+    <div>
+        <h2 class="mt-16">Risultati</h2>
+    </div>
 </template>
 
 <script>

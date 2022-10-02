@@ -63,6 +63,10 @@
                 console.log('qui',this.errors);
             } else {
                 this.errors = false
+                this.$router.push(
+                {
+                    name: 'tableproduct'
+                })
             }
             }).catch((err) => {
             console.log('catch', err);
@@ -81,7 +85,7 @@
 
         },
         getProduct() {
-            axios.get('http://localhost:8000/api/discount-category')
+            axios.get('http://localhost:8000/api/productcateogries')
             .then(res => {
                 // console.log(res.data);
                 this.options = res.data.category;

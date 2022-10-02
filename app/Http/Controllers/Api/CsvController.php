@@ -115,21 +115,21 @@ class CsvController extends Controller
             $existingProduct = Product::where('name', $elemName )->where('category_id', $category->id)->where('price', $decimalPrice);
 
             //genero codice articolo nome+categoria
-            $fullCode = $elemName . $category;
+            $fullCode = $elemName .' '. $category->name .' '. $decimalPrice ;
             $code_article = Str::slug($fullCode, '-'); 
             $existingCode = Product::where('cod_article', $code_article)->first();
             $codeBase = $code_article;
             $counter = 1;
             while($existingCode) {
                 $code_article = $codeBase . "-" . $counter;
-                $existingCode = House::where('cod_article', $code_article)->first();
+                $existingCode = Product::where('cod_article', $code_article)->first();
                 $counter++;
             }
 
             //se il prodotto non esiste crealo
             if (!$existingProduct->exists()) {
                 $newPoduct = new Product();
-                $newPoduct->cod_article = $elemName;
+                $newPoduct->cod_article = $code_article;
                 $newPoduct->name = $elemName;
                 $newPoduct->category_id = $category->id;
                 $newPoduct->price = $decimalPrice;
@@ -150,7 +150,7 @@ class CsvController extends Controller
         );
     }
 
-    public function discount()
+    public function productcateogries()
     {
         $product = Product::all();
         $category = Category::all();
@@ -186,7 +186,6 @@ class CsvController extends Controller
                }
             }
         }
-
 
         return response()->json(
             ['success' => true]
