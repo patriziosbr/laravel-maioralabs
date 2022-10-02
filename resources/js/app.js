@@ -47,7 +47,7 @@ const router = new VueRouter({
             component: Discount,
         },
         {
-            path: '/ableproduct',
+            path: '/tableproduct',
             name: 'tableproduct',
             component: TableProduct,
         },

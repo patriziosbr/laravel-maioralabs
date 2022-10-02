@@ -77,7 +77,7 @@ class CsvController extends Controller
 
         $cleanCsv = json_decode( $originalCsv, TRUE ); //Log::info($cleanCsv); //array di arrays ok
 
-        //pulisco la collection dai doppioni e creo un array di arrays con count e codice articolo
+        //conto i doppioni e creo un array di arrays con count e codice articolo
         $hash = array();
         $array_out = array();
         foreach($cleanCsv as $key => $item) {
@@ -98,7 +98,7 @@ class CsvController extends Controller
             }
             $array_out[$hash[$hash_key]]['count'] += 1;
         }
-        // Log::info($array_out); ok
+        Log::info($array_out); //ok
 
         foreach($array_out as $elem) {
 
@@ -131,7 +131,7 @@ class CsvController extends Controller
                 $newPoduct = new Product();
                 $newPoduct->cod_article = $code_article;
                 $newPoduct->name = $elemName;
-                $newPoduct->category_id = $category->id;
+                $newPoduct->category_name = $elem['category'];
                 $newPoduct->price = $decimalPrice;
                 $newPoduct->currency = $currencyString;
                 $newPoduct->quantity = $elemQta;
