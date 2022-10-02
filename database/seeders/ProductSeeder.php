@@ -69,6 +69,7 @@ class ProductSeeder extends Seeder
 
         $elemName = $elem['name'];
         $elemQta = $elem['count'];
+        
           
         $newPoduct = new Product();
         $newPoduct->name = $elemName;

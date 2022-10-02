@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onDelete('SET NULL');
+            $table->string('cod_article', 200)->nullable()->default(NULL);
             $table->string('name', 100);
             $table->decimal('price', 7,2);
             $table->float('percentage_discount', 5,2)->nullable()->default(NULL);

@@ -11,7 +11,7 @@ use App\Models\Csv;
 use App\Models\Category;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 use Log;
 
 class CsvController extends Controller
@@ -76,12 +76,11 @@ class CsvController extends Controller
         }
 
         $cleanCsv = json_decode( $originalCsv, TRUE ); //Log::info($cleanCsv); //array di arrays ok
-        
-        //pulisco la collection dai doppioni e creo un array di arrays con count
+
+        //pulisco la collection dai doppioni e creo un array di arrays con count e codice articolo
         $hash = array();
         $array_out = array();
         foreach($cleanCsv as $key => $item) {
-            
             if($data['checked']){
                 if($key == 0)
                     continue;
@@ -91,6 +90,7 @@ class CsvController extends Controller
                 $hash[$hash_key] = sizeof($array_out);
                 array_push($array_out, array(
                     'category' => $item['categoria'],
+                    'cod_article' => '',
                     'name' => $item['nome_prodotto'],
                     'price' => $item['prezzo'],
                     'count' => 0,
@@ -113,10 +113,23 @@ class CsvController extends Controller
             $category = Category::where('name', $elem['category'])->first(); //cerco nella tab category
             $decimalPrice = number_format(($price/100), 2, '.', '');
             $existingProduct = Product::where('name', $elemName )->where('category_id', $category->id)->where('price', $decimalPrice);
-              
+
+            //genero codice articolo nome+categoria
+            $fullCode = $elemName . $category;
+            $code_article = Str::slug($fullCode, '-'); 
+            $existingCode = Product::where('cod_article', $code_article)->first();
+            $codeBase = $code_article;
+            $counter = 1;
+            while($existingCode) {
+                $code_article = $codeBase . "-" . $counter;
+                $existingCode = House::where('cod_article', $code_article)->first();
+                $counter++;
+            }
+
             //se il prodotto non esiste crealo
             if (!$existingProduct->exists()) {
                 $newPoduct = new Product();
+                $newPoduct->cod_article = $elemName;
                 $newPoduct->name = $elemName;
                 $newPoduct->category_id = $category->id;
                 $newPoduct->price = $decimalPrice;

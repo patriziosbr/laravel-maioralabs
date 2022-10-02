@@ -28,8 +28,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import App from './App.vue';
-import Discount from './views/Discount'
-import Home from './views/Home'
+import Discount from './views/Discount';
+import Home from './views/Home';
+import TableProduct from './views/TableProduct';
 
 const router = new VueRouter({
     mode: 'history',
@@ -43,6 +44,11 @@ const router = new VueRouter({
             path: '/discount',
             name: 'discount',
             component: Discount,
+        },
+        {
+            path: '/ableproduct',
+            name: 'tableproduct',
+            component: TableProduct,
         }
     ],
 });
