@@ -60,7 +60,7 @@ export default {
         }
     },
     mounted() {
-        // this.getProduct()
+        this.getProduct()
         setTimeout(() => {
             var table = $('#prod').DataTable({
             "initComplete": function(settings, json) {

@@ -5750,7 +5750,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    // this.getProduct()
+    this.getProduct();
     setTimeout(function () {
       var table = $('#prod').DataTable({
         "initComplete": function initComplete(settings, json) {
