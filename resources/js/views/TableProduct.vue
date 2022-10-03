@@ -1,34 +1,39 @@
 <template>
     <div>
-        <h2 class="mt-16">Risultati</h2>
+        <div v-if="products.length == 0">
+            <h2 class="mt-16">Non ci sono prodotti qui</h2>
+            <p class="mt-16">Trona a <a href="/">home</a> e carica un file</p>
+        </div>
+        <div v-else>
+            <h2 class="mt-16">Risultati</h2>
+            <div id="external_filter" class="dataTables_filter" style="margin: 20px 0;">
+                <label>External Search:
+                <input id="external_search" type="search" class="" placeholder="" aria-controls="prod">
+                </label>
+            </div>
 
-        <!-- {{products}} -->
-    <div id="external_filter" class="dataTables_filter" style="margin: 20px 0;">
-        <label>External Search:
-        <input id="external_search" type="search" class="" placeholder="" aria-controls="animals">
-        </label>
-    </div>
-
-    <table id="animals" class="display dataTable cell-border" style="width:100%">
-        <thead>
-            <tr>
-                <th>Codice articolo</th>
-                <th>Nome articolo</th>
-                <th>Categoria</th>
-                <th>Prezzo</th>
-                <th>Sconto</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(product) in products" :key="product.id">
-                <td>{{product.cod_article}}</td>
-                <td>{{product.name}}</td>
-                <td>{{product.category_name}}</td>
-                <td>{{product.price}} €</td>
-                <td>{{product.currency}} %</td>
-            </tr>
-        </tbody>
-    </table>
+            <table id="prod" class="display dataTable cell-border" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Codice articolo</th>
+                        <th>Nome articolo</th>
+                        <th>Categoria</th>
+                        <th>Prezzo</th>
+                        <th>Sconto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(product) in products" :key="product.id">
+                        <td>{{product.cod_article}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.category_name}}</td>
+                        <td>{{product.price}} €</td>
+                        <td v-if="product.percentage_discount">{{product.percentage_discount}}%</td>
+                        <td v-else>0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -55,11 +60,11 @@ export default {
         }
     },
     mounted() {
-        this.getProduct()
+        // this.getProduct()
         setTimeout(() => {
-            var table = $('#animals').DataTable({
+            var table = $('#prod').DataTable({
             "initComplete": function(settings, json) {
-                $('#animals_filter').remove();
+                $('#prod_filter').remove();
                 }
             });
 

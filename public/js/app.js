@@ -5671,7 +5671,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'NotFound'
 });
@@ -5689,6 +5688,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5746,11 +5750,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.getProduct();
+    // this.getProduct()
     setTimeout(function () {
-      var table = $('#animals').DataTable({
+      var table = $('#prod').DataTable({
         "initComplete": function initComplete(settings, json) {
-          $('#animals_filter').remove();
+          $('#prod_filter').remove();
         }
       });
       $('#external_filter input').off().keyup(function () {
@@ -30170,8 +30174,6 @@ var staticRenderFns = [
       [
         _c("h3", [_vm._v("Ops . . .")]),
         _vm._v(" "),
-        _c("h3", [_vm._v("Questo il posto migliore per una vacanza . . .")]),
-        _vm._v(" "),
         _c("span", [_vm._v("404")]),
         _vm._v(" "),
         _c("span", [_vm._v("Not found")]),
@@ -30204,42 +30206,66 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", { staticClass: "mt-16" }, [_vm._v("Risultati")]),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "table",
-      {
-        staticClass: "display dataTable cell-border",
-        staticStyle: { width: "100%" },
-        attrs: { id: "animals" },
-      },
-      [
-        _vm._m(1),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.products, function (product) {
-            return _c("tr", { key: product.id }, [
-              _c("td", [_vm._v(_vm._s(product.cod_article))]),
+    _vm.products.length == 0
+      ? _c("div", [
+          _c("h2", { staticClass: "mt-16" }, [
+            _vm._v("Non ci sono prodotti qui"),
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+        ])
+      : _c("div", [
+          _c("h2", { staticClass: "mt-16" }, [_vm._v("Risultati")]),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "table",
+            {
+              staticClass: "display dataTable cell-border",
+              staticStyle: { width: "100%" },
+              attrs: { id: "prod" },
+            },
+            [
+              _vm._m(2),
               _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(product.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(product.category_name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(product.price) + " €")]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(product.currency) + " %")]),
-            ])
-          }),
-          0
-        ),
-      ]
-    ),
+              _c(
+                "tbody",
+                _vm._l(_vm.products, function (product) {
+                  return _c("tr", { key: product.id }, [
+                    _c("td", [_vm._v(_vm._s(product.cod_article))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.category_name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.price) + " €")]),
+                    _vm._v(" "),
+                    product.percentage_discount
+                      ? _c("td", [
+                          _vm._v(_vm._s(product.percentage_discount) + "%"),
+                        ])
+                      : _c("td", [_vm._v("0%")]),
+                  ])
+                }),
+                0
+              ),
+            ]
+          ),
+        ]),
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "mt-16" }, [
+      _vm._v("Trona a "),
+      _c("a", { attrs: { href: "/" } }, [_vm._v("home")]),
+      _vm._v(" e carica un file"),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -30253,13 +30279,13 @@ var staticRenderFns = [
       },
       [
         _c("label", [
-          _vm._v("External Search:\n    "),
+          _vm._v("External Search:\n            "),
           _c("input", {
             attrs: {
               id: "external_search",
               type: "search",
               placeholder: "",
-              "aria-controls": "animals",
+              "aria-controls": "prod",
             },
           }),
         ]),
